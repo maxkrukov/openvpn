@@ -1,5 +1,5 @@
 pipeline {
-    agent { label "openvpn"  }
+    agent { label "master"  }
     
     stages {
         stage('Read user metadata') {
