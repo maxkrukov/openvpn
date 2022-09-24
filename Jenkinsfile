@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     ws('/etc/openvpn') { 
-                       sh 'apt install pwgen -y' 
+                       sh 'apt install pwgen expect -y' 
                        env.password = sh returnStdout: true, script: 'pwgen -1 32'
 
                        sh '''#!/bin/bash
