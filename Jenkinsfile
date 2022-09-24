@@ -15,17 +15,19 @@ pipeline {
         stage('Run script') {
             steps {
                 script {
-                   env.password = sh returnStdout: true, script: 'pwgen -1 32'
+                    ws('/etc/openvpn') { 
+                       env.password = sh returnStdout: true, script: 'pwgen -1 32'
 
-                   sh '''#!/bin/bash
-                       export PATH=${PATH}:${WORKSPACE}
+                       sh '''#!/bin/bash
+                           export PATH=${PATH}:${WORKSPACE}
 
-                       if ( ./expect.sh list | grep $BUILD_USER_EMAIL ); then
-                           ./expect.sh revoke ${BUILD_USER_EMAIL}                         
-                       fi
+                           if ( ./expect.sh list | grep $BUILD_USER_EMAIL ); then
+                               ./expect.sh revoke ${BUILD_USER_EMAIL}                         
+                           fi
 
-                       ./expect.sh create ${BUILD_USER_EMAIL} ${password}
-                   '''
+                           ./expect.sh create ${BUILD_USER_EMAIL} ${password}
+                       '''
+                    }    
                 }
             }
         }
